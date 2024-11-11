@@ -1,0 +1,114 @@
+.div1
+{
+    background-color:rgb(151, 6, 190);
+    height: 200px;
+    width: 450px;
+    border: 2px solid black;
+    border-bottom: 0px;
+    display: inline;
+    justify-content: center;
+    margin-top: 50px;
+}
+
+.div2
+{
+    background-color: white;
+    height: 450px;
+    width: 450px;
+    border: 2px solid black;
+}
+
+.wholediv
+{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-grow: 1;
+}
+
+body 
+{
+    background-color: white;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    height: 100vh;
+    margin: 0;
+    font-size: 1.5rem;
+} 
+
+.back
+{
+    margin-top: 383px;
+    height: 640px;
+    width: 100%;
+    position: absolute;
+    z-index: -1; 
+    object-fit: cover; 
+}
+
+.heading
+{
+    font-size: 2.5rem;
+    color: white;
+    margin-top: 1px;
+    margin-bottom: 20px;
+} 
+
+.experience
+{
+    font-size: 2rem;
+    margin-left: 15px;
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;;
+}
+
+input[type="radio"] 
+{
+    transform: scale(1.5); 
+    margin-left: 15px; 
+}
+
+.emotion
+{
+    font-size: 1.3rem; 
+    margin-left: 15px;
+}
+
+textarea.message
+{
+    width: 415px;
+    height: 200px; 
+    font-size: 1.3rem;
+    margin-top: 20px;
+    margin-left: 15px;
+    margin-bottom: 1.5rem;
+}
+
+.problem
+{
+    font-size: 1.3rem; 
+    margin-left: 15px;
+    margin-bottom: 1.5rem;
+}
+
+.button {
+    width: 415px; 
+    height: 50px;  
+    font-size: 1.2rem; 
+    margin-top: 20px; 
+    margin-left: 7px; 
+}
+
+.text
+{
+    font-size: 1.3rem;
+    color: white;
+}
+
+.TopHeading
+{
+    font-size: 2rem;
+    text-align: center; 
+    margin-top: 150px; 
+}
