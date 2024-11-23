@@ -1,0 +1,151 @@
+@import url('https://fonts.googleapis.com/css2?family=Playwrite+GB+S:ital,wght@0,100..400;1,100..400&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playwrite+GB+S:ital,wght@0,100..400;1,100..400&display=swap');
+
+:root{
+    --selection_color:rgb(151, 6, 190);
+}
+
+*{
+    font-family: "Poppins", sans-serif;
+    font-optical-sizing: auto;
+    margin:0; 
+    padding:0;
+    box-sizing: border-box;
+    text-transform: capitalize;
+    outline: none;
+    border: none;
+    text-decoration: none;
+    transition: all .3s linear;
+}
+
+*::selection{
+    background:var(--selection_color);
+    color:white;
+}
+
+header{
+    position:fixed;
+    top:0;
+    left:0;
+    right:0;
+    background-color: rgb(39, 37, 37);
+    z-index:3;
+    align-items: center;
+    justify-content: space-between;
+    display: flex;
+    padding:1.8rem 10%;
+}
+
+html{
+    font-size: 65%;
+    scroll-padding-top: 7rem;
+    scroll-behavior: smooth;
+    overflow-x: hidden;
+}
+
+header .logo{
+    font-family: "Playwrite GB S", cursive;
+    font-size: 3rem;
+    font-weight:200;
+    color:white;
+    text-transform: uppercase;
+}
+
+header .logo span{
+    color:var(--selection_color);
+    font-family: "Playwrite GB S", cursive;
+    font-size: 3rem;
+    font-weight:200;
+}
+
+header .navigation a{
+    color:white;
+    margin: 0 1rem;
+    font-size: 1.5rem;
+}
+
+header .navigation a:hover{
+    color:var(--selection_color);
+    transition: font-size 0.3s ease;
+}
+
+header .navigation a:hover:hover{
+    font-size:1.8rem;
+}
+
+header .icon i{
+    margin-right: 1.5rem;
+    font-size: 2.2rem;
+    color:white;
+    cursor: pointer;
+    margin-left:1.5rem;
+}
+
+header .icon i:hover{
+    color:var(--selection_color);
+    transition: font-size 0.3s ease;
+}
+
+header .icon i:hover:hover{
+    font-size:2.7rem;
+}
+
+.search_bar{
+    padding:0.9rem;
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    top:300px;
+    left:100px;
+    right:100px;
+    position:absolute;
+    background-color: white;
+    border: 2px solid;
+    border-radius: 2rem;
+    z-index:10;
+}
+
+.search_bar #search-bar{
+    padding:1rem;
+    width:90%;
+    text-transform:none;
+    color:rgb(39, 37, 37);
+    border-radius: 0.5rem;
+    font-size: 1.5rem;
+}
+
+.search_bar #search-bar:hover{
+    transition: font-size 0.3s ease;
+}
+
+.search_bar #search-bar:hover:hover{
+    font-size:1.8rem;
+}
+
+.search_bar label{
+    cursor: pointer;
+    color: rgb(39, 37, 37);
+    font-size: 2rem;
+    margin-left: 1.2rem;
+}
+
+.search_bar label:hover{
+    color: var(--selection_color);
+    transition: font-size 0.3s ease;
+}
+
+.search_bar label:hover:hover{
+    font-size:2.5rem;
+}
+
+section{
+    padding:100px 8%;
+}
+
+.bgimage{
+    height:100%;
+    width:100%;
+    position: absolute;
+    object-fit: cover;
+}
+
