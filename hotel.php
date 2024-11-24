@@ -39,7 +39,7 @@ function getAccessToken($clientId, $clientSecret) {
 }
 
 function getHotelOffers($accessToken, $cityCode, $checkInDate, $checkOutDate, $adults = 1) {
-    $url = "https://test.api.amadeus.com/v3/shopping/hotel-offers";
+    $url = "https://test.api.amadeus.com/v1/reference-data/locations/hotels/by-city";
     $params = [
         'cityCode' => $cityCode,
         'checkInDate' => $checkInDate,
@@ -69,38 +69,53 @@ function getHotelOffers($accessToken, $cityCode, $checkInDate, $checkOutDate, $a
     return json_decode($response, true);
 }
 
-$accessToken = getAccessToken($clientId, $clientSecret);
+$accessToken = getAccessToken($clientId, $clientSecret);  // Replace with your actual access token
+echo "$accessToken";
+$cityCode = 'NYC';               // Hotel ID
+$adults = 1;                         // Number of adults
+$checkInDate = '2024-11-30';         // Check-in date 
 
-$cityCode = "NYC"; // Example for New York, use appropriate city code
-$checkInDate = "2024-12-01"; 
-$checkOutDate = "2024-12-10"; 
-$adults = 1;
+// Build the API URL with the correct parameters
+$url = "https://test.api.amadeus.com/v1/reference-data/locations/hotels/by-city?cityCode=PAR&radius=5&radiusUnit=KM&hotelSource=ALL";
 
-$hotelOffers = getHotelOffers($accessToken, $cityCode, $checkInDate, $checkOutDate, $adults);
+// Initialize cURL session
+$ch = curl_init();
 
-$seenHotels = [];
+// Set cURL options
+curl_setopt($ch, CURLOPT_URL, $url);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_HTTPHEADER, [
+    "Authorization: Bearer $accessToken"  // Authorization with the access token
+]);
 
-print_r($hotelOffers);
+// Execute the cURL request and get the response
+$response = curl_exec($ch);
 
-echo "<h2>Available Hotels:</h2>";
-$i = 0;
-foreach ($hotelOffers['data'] as $offer) {
-    if ($i == 5) break;
-    $hotel = $offer['hotel'];
-    $price = $offer['offers'][0]['price']['total'];
+// Check for errors in the cURL request
+if (curl_errno($ch)) {
+    echo 'Curl error: ' . curl_error($ch);
+} else {
+    // Decode the JSON response from the API
+    $data = json_decode($response, true);
 
-    $uniqueKey = $hotel['name'] . "-" . $hotel['address']['lines'][0] . "-" . 
-                 $hotel['address']['postalCode'];
-
-    if (in_array($uniqueKey, $seenHotels)) {
-        continue;
+    // Check if there is hotel data in the response
+    if (isset($data['data']) && count($data['data']) > 0) {
+        echo "<h2>Hotel Offers:</h2>";
+        // Loop through each hotel offer and display the details
+        foreach ($data['data'] as $hotel) {
+            echo "<div>";
+            echo "<h3>Hotel Name: " . $hotel['hotel']['name'] . "</h3>";
+            echo "<p>Location: " . $hotel['hotel']['address']['cityName'] . ", " . $hotel['hotel']['address']['countryCode'] . "</p>";
+            echo "<p>Price: " . $hotel['offers'][0]['price']['total'] . " " . $hotel['offers'][0]['price']['currency'] . "</p>";
+            echo "<p>Check-in: " . $hotel['offers'][0]['checkInDate'] . "</p>";
+            echo "<p>Check-out: " . $hotel['offers'][0]['checkOutDate'] . "</p>";
+            echo "</div><br>";
+        }
+    } else {
+        echo "<p>No hotel offers found for your search criteria.</p>";
     }
-
-    $i++;
-    $seenHotels[] = $uniqueKey;
-
-    echo "<p>Hotel: {$hotel['name']}</p>";
-    echo "<p>Address: {$hotel['address']['lines'][0]}, {$hotel['address']['postalCode']}</p>";
-    echo "<p>Price: $ {$price}</p><hr>";
 }
+
+curl_close($ch);
+
 ?>

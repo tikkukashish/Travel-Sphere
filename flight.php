@@ -52,7 +52,7 @@ function getFlightOffers($accessToken, $origin, $destination, $departureDate, $r
     }
 
     $queryString = http_build_query($params);
-    echo"$queryString";
+
     $url = $url . "?" . $queryString;
 
     $ch = curl_init();
@@ -61,6 +61,8 @@ function getFlightOffers($accessToken, $origin, $destination, $departureDate, $r
     curl_setopt($ch, CURLOPT_HTTPHEADER, [
         'Authorization: Bearer ' . $accessToken
     ]);
+
+    echo "$ch";
 
     $response = curl_exec($ch);
 
