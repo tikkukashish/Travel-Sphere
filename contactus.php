@@ -11,24 +11,41 @@
 
     <!-- header -->
     <header>
-        <a href="homepage.html" class="logo">Travel<span>Sphere</span></a> 
+        <a href="homepage.php" class="logo">Travel<span>Sphere</span></a> 
         <nav class="navigation">
-            <a href="homepage.html">Home</a>
-            <a href="booking.html">Book</a>
-            <a href="package.html">Holiday Packages</a>
-            <a href="contactus.html">Contact Us</a>
+            <a href="homepage.php">Home</a>
+            <a href="booking.php">Book</a>
+            <a href="package.php">Holiday Packages</a>
+            <a href="contactus.php">Contact Us</a>
         </nav>
 
-        <div class="icon">
-            <a href="travel_login.html">
-                <i class='bx bxs-user-circle' id="user"></i>
-            </a>
-        </div>
 
+            <?php
+            session_start();
+            if(!isset($_SESSION["username"])){
+                echo"   
+                        <div class='icon'>
+                        <nav class='navigation'><a href='travel_login.php'>Log in</a>
+                        </div>
+            
+                    ";
+            }
+            else{
+                $username = $_SESSION['username'];
+                echo"
+
+                    <div class='icon'>  
+                        <nav class='navigation'><a>$username</a><a href='logout.php'>Log out</a></nav>
+                    </div>
+
+                ";
+            }
+            ?>
         <form name="search bar" action="" class="search_bar">
             <input type="search" id="search-bar" placeholder="City or Location">
             <label for="search-bar" class="bx bx-search search_btn"></label>
         </form>
+
     </header>
 
     <!-- body -->
@@ -42,7 +59,7 @@
         </p>    
     </center>    
     <div class="Odiv">
-        <div><img src="D:\JIIT\College\sem 3\DBMS\project\media\contact us image.jpg" class="image"></div>
+        <div><img src="media\contact us image.jpg" class="image"></div>
         <div class="details">
             <form class="form">
                 <input type="text" placeholder="First Name*" class="firstName"><br>
@@ -54,7 +71,7 @@
         </div>
     </div>
     <div class="feedback">
-        <br><br>GIVE US YOUR VALUABLE FEEDBACK: <a href="Feedback.html">CLICK HERE<br></a>
+        <br><br>GIVE US YOUR VALUABLE FEEDBACK: <a href="Feedback.php">CLICK HERE<br></a>
     </div>
     
     <!-- footer -->

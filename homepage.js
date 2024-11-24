@@ -1,26 +1,37 @@
-let s_btn=document.querySelector('#search');
-let s_bar=document.querySelector('.search_bar'); 
+document.addEventListener('DOMContentLoaded', () => {
+    let vid_btn = document.querySelectorAll('.vid_control');
+    let vid_idx = 0;
 
-s_btn.addEventListener('click',() =>{
-    s_btn.classList.toggle('bx-x');
-    s_bar.classList.toggle('active');
-});
+    if (vid_btn.length === 0) {
+        console.error("No .vid_control elements found in the DOM.");
+        return; // Stop if no controls are found
+    }
+    
+    vid_btn.forEach((btn, index) => {
+        btn.addEventListener('click', () => {
+            let activeBtn = document.querySelector('.controls .active');
+            if (activeBtn) {
+                activeBtn.classList.remove('active');
+            }
+            btn.classList.add('active');
 
-let vid_btn=document.querySelectorAll('.vid_control');
-let vid_idx=0;
-vid_btn.forEach((btn, index) => {
-    btn.addEventListener('click', () => {
-        document.querySelector('.controls .active').classList.remove('active');
-        btn.classList.add('active');
-        let src = btn.getAttribute('data-src');
-        let videoElement = document.querySelector('#video');
-        const newVideoIndex = index;
-        const direction = newVideoIndex > vid_idx ? 'slide-left' : 'slide-right';
-        currentVideoIndex = newVideoIndex;
-        videoElement.classList.add(direction); // Add the appropriate slide class
-        setTimeout(() => {
-            videoElement.src = src; // Change video source
-            videoElement.classList.remove(direction); // Remove slide class after animation
-        }, 300); // Match animation duration
+            let src = btn.getAttribute('data-src');
+            let videoElement = document.querySelector('#video');
+
+            if (!videoElement) {
+                console.error("Video element (#video) not found.");
+                return;
+            }
+
+            const newVideoIndex = index;
+            const direction = newVideoIndex > vid_idx ? 'slide-left' : 'slide-right';
+            vid_idx = newVideoIndex;
+
+            videoElement.classList.add(direction);
+            setTimeout(() => {
+                videoElement.src = src;
+                videoElement.classList.remove(direction);
+            }, 300); // Match animation duration
+        });
     });
 });
