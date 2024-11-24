@@ -41,5 +41,47 @@
                 ";
             }
             ?>
+    </header>
+
+    <!-- body  -->
+    <section>
+        <div class="content">
+        <div class="trip">Trip Details</div>
+        <table name="details" class="t_details">
+            <thead>
+            <tr>
+                <th>S.No</th>
+                <th>Destination</th>
+                <th>Flight Number</th>
+                <th>Hotel</th>
+                <th>Departure</th>
+                <th>Arrival</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr>
+                <td>1</td>
+                <td>idk</td>
+                <td>1001</td>
+                <td>abcd</td>
+                <td>20/11/24</td>
+                <td>23/11/24</td>
+            </tr>
+
+            <tr>
+                <td>2</td>
+                <td>idk</td>
+                <td>1001</td>
+                <td>abcd</td>
+                <td>20/11/24</td>
+                <td>23/11/24</td>
+            </tr>
+
+            </tbody>
+
+        </table>
+        </div>
+    </section>
 </body>
 </html>
