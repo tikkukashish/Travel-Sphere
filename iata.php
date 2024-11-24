@@ -71,7 +71,8 @@ $cityCode = getCityCode($cityName, $accessToken);
 
 if ($cityCode) {
     session_start();
-    $_SESSION['destination'] = $cityCode;
+    $_SESSION['destination'] = $cityName;
+    $_SESSION['destinationCode'] = $cityCode;
     header("Location: flight.php");
 } else {
     echo "City Not Available";

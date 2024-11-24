@@ -9,76 +9,44 @@
     <title>Document</title>
 </head>
 <body>
-<header>
-        <a href="homepage.php" class="logo">Travel<span>Sphere</span></a> 
-        <nav class="navigation">
-            <a href="homepage.php">Home</a>
-            <a href="booking.php">Book</a>
-            <a href="package.php">Holiday Packages</a>
-            <a href="contactus.php">Contact Us</a>
-            <a href="mytrips.php">My Trips</a>
-        </nav>
+<?php
+    include('header.php');
+?>
 
 
-            <?php
-            session_start();
-            if(!isset($_SESSION["username"])){
-                echo"   
-                        <div class='icon'>
-                        <nav class='navigation'><a href='travel_login.php'>Log in</a>
-                        </div>
-            
-                    ";
-            }
-            else{
-                $username = $_SESSION['username'];
-                echo"
-
-                    <div class='icon'>  
-                        <nav class='navigation'><a>$username</a><a href='logout.php'>Log out</a></nav>
-                    </div>
-
-                ";
-            }
-            ?>
-    </header>
 
     <!-- body  -->
     <section>
         <div class="content">
-        
-        <div class="confirm">Confirmed!</div>
         <div class="trip">Trip Details</div>
         <table name="details" class="t_details">
             <thead>
             <tr>
                 <th>S.No</th>
                 <th>Destination</th>
+                <th>Departure</th>
                 <th>Flight Number</th>
                 <th>Hotel</th>
-                <th>Departure</th>
-                <th>Arrival</th>
+
             </tr>
             </thead>
 
             <tbody>
-            <tr>
-                <td>1</td>
-                <td>idk</td>
-                <td>1001</td>
-                <td>abcd</td>
-                <td>20/11/24</td>
-                <td>23/11/24</td>
-            </tr>
+            <?php
+                require('db.php');
+                $username = $_SESSION['username'];
+                $query = "SELECT * FROM trips WHERE Username='$username'";
+                $result = mysqli_query($con,$query);
 
-            <tr>
-                <td>2</td>
-                <td>idk</td>
-                <td>1001</td>
-                <td>abcd</td>
-                <td>20/11/24</td>
-                <td>23/11/24</td>
-            </tr>
+                $i=1;
+                while ($row = mysqli_fetch_assoc($result)){
+                    echo "<tr><td>".$i++."</td>";
+                    echo "<td>".$row['Destination']."</td>";
+                    echo "<td>".$row['Departure']."</td>";
+                    echo "<td>".$row['Flight_No']."</td>";
+                    echo "<td>".$row['Hotel']."</td></tr>";
+                    }
+            ?>
 
             </tbody>
 

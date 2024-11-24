@@ -4,52 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
      <link href="homepage.css" rel=stylesheet>
-     <link href="flight.css" rel=stylesheet>
+     <link href="tables.css" rel=stylesheet>
     <title>Document</title>
 </head> 
 
 <body>
 
-<!-- header-->
 
-    <header>
-        <a href="homepage.php" class="logo">Travel<span>Sphere</span></a> 
-        <nav class="navigation">
-            <a href="homepage.php">Home</a>
-            <a href="booking.php">Book</a>
-            <a href="package.php">Holiday Packages</a>
-            <a href="contactus.php">Contact Us</a>
-            <a href="mytrips.php">My Trips</a>
-        </nav>
+<?php
+    include('header.php');
+?>
 
-
-            <?php
-            session_start();
-            if(!isset($_SESSION["username"])){
-                echo"   
-                        <div class='icon'>
-                        <nav class='navigation'><a href='travel_login.php'>Log in</a>
-                        </div>
-            
-                    ";
-            }
-            else{
-                $username = $_SESSION['username'];
-                echo"
-
-                    <div class='icon'>  
-                        <nav class='navigation'><a>$username</a><a href='logout.php'>Log out</a></nav>
-                    </div>
-
-                ";
-            }
-            ?>
-        <form name="search bar" action="" class="search_bar">
-            <input type="search" id="search-bar" placeholder="City or Location">
-            <label for="search-bar" class="bx bx-search search_btn"></label>
-        </form>
-
-    </header>
 
 <?php
 
@@ -109,9 +74,9 @@ if (!$accessToken) {
 
 
 $origin = "DEL";  // Origin location code (example: Delhi)
-$destination = $_SESSION['destination'];  // Destination location code (dynamic)
-$departureDate = "2024-11-30";  // Departure date // Return date (if needed)
-$adults = 1;
+$destination = $_SESSION['destinationCode'];  // Destination location code (dynamic)
+$departureDate = "2024-11-30";  // Departure date 
+$adults = 1; // No. of Adults
 
 // Fetch flight offers
 $flightOffers = getFlightOffers($accessToken, $origin, $destination, $departureDate, $returnDate=null, $adults);
@@ -176,6 +141,7 @@ foreach ($flightOffers['data'] as $offer) {
             if ($itinerary['carrierCode'].$itinerary['number'] == $FlightNo){
                 $_SESSION['FlightNo'] = $FlightNo;
                 $_SESSION['bill'] = $offer['price']['total'];
+                $_SESSION['departureDate'] = $departureDate;
                 header('Location:hotel.php');
             }
         }

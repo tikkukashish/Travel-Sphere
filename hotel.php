@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
      <link href="homepage.css" rel=stylesheet>
-     <link href="hotel.css" rel=stylesheet>
+     <link href="tables.css" rel=stylesheet>
     <title>Document</title>
 </head> 
 
@@ -12,46 +12,8 @@
 
 <!-- header-->
 
-    <header>
-        <a href="homepage.php" class="logo">Travel<span>Sphere</span></a> 
-        <nav class="navigation">
-            <a href="homepage.php">Home</a>
-            <a href="booking.php">Book</a>
-            <a href="package.php">Holiday Packages</a>
-            <a href="contactus.php">Contact Us</a>
-            <a href="mytrips.php">My Trips</a>
-        </nav>
-
-
-            <?php
-            session_start();
-            if(!isset($_SESSION["username"])){
-                echo"   
-                        <div class='icon'>
-                        <nav class='navigation'><a href='travel_login.php'>Log in</a>
-                        </div>
-            
-                    ";
-            }
-            else{
-                $username = $_SESSION['username'];
-                echo"
-
-                    <div class='icon'>  
-                        <nav class='navigation'><a>$username</a><a href='logout.php'>Log out</a></nav>
-                    </div>
-
-                ";
-            }
-            ?>
-        <form name="search bar" action="" class="search_bar">
-            <input type="search" id="search-bar" placeholder="City or Location">
-            <label for="search-bar" class="bx bx-search search_btn"></label>
-        </form>
-
-    </header>
-
 <?php
+include('header.php');
 include('getAccessToken.php');
 include('currency.php');
 
@@ -63,7 +25,7 @@ if (!$accessToken) {
     die("Error: Unable to get access token.");
 }
 
-$cityCode = $_SESSION['destination']; 
+$cityCode = $_SESSION['destinationCode']; 
 $radius = 30; 
 // Request hotels with ratings 3, 4, 5
 $url = "https://test.api.amadeus.com/v1/reference-data/locations/hotels/by-city?cityCode=$cityCode&radius=$radius&radiusUnit=KM&ratings=3,4,5";
@@ -175,9 +137,10 @@ foreach ($chunks as $batch) {
             $HName = $_REQUEST['HName'];
             if ($hotel['hotel']['name'] == $HName){
                 $_SESSION['bill'] += $hotel['offers'][0]['price']['total'];
+                $_SESSION['HotelName'] = $HName;
+                header('Location: confirmBooking.php');
             }
         }
-        print($_SESSION['bill']);
     }
 ?>
 
