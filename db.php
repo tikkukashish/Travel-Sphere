@@ -1,6 +1,6 @@
 <?php
-        $con = mysqli_connect("localhost","root","user");
-        mysqli_query($con,"CREATE DATABASE IF NOT EXISTS travel_db");
-        mysqli_query($con,"USE travel_db");
-
+$con = mysqli_connect("localhost","root","","travel_db");
+if (mysqli_connect_errno()){
+    echo "Failed to connect to MySQL: " . mysqli_connect_error();
+}
 ?>

@@ -54,7 +54,7 @@
 <?php
 
 include('currency.php');
-include('accessToken.php');
+include('getAccessToken.php');
 
 
 // Function to fetch flight offers (with price conversion)
@@ -129,7 +129,7 @@ echo "<h2>Available Flights:</h2>";
     <table border : 1px class="t_details">
         <thead>
             <tr>
-        <th></th><th>DEPARTURE</th><th>ARRIVAL</th><th>ETD</th><th>ETA</th><th>PRICE</th><th>FLIGHT NO</th>
+        <th></th><th>DEPARTURE</th><th>ARRIVAL</th><th>ETD</th><th>ETA</th><th>FLIGHT NO</th><th>PRICE</th>
         </tr>
         </thead>
 <?php
@@ -159,14 +159,31 @@ foreach ($flightOffers['data'] as $offer) {
     echo "<td>".$itinerary['departure']['iataCode']."</td> <td>".$itinerary['arrival']['iataCode']."</td>";
     echo "<td>".$itinerary['departure']['at']."</td>";
     echo "<td>".$itinerary['arrival']['at']."</td>";
-    echo "<td>".$price.$currency."</td>";
-    echo "<td>".$itinerary['carrierCode'].$itinerary['number']."</td></tr></tbody>";
+    echo "<td>".$itinerary['carrierCode'].$itinerary['number']."</td>";
+    echo "<td>".$price.$currency."</td></tr></tbody>";
 }
 
 ?>
 
 </table>
 <input type = 'submit' class="submit">
+
+<?php
+    if(isset($_REQUEST['FNo'])){
+
+        foreach($flightOffers['data'] as $offer){
+            $FlightNo = $_REQUEST['FNo'];
+            $itinerary = $offer['itineraries'][0]['segments'][0];
+            if ($itinerary['carrierCode'].$itinerary['number'] == $FlightNo){
+                $_SESSION['FlightNo'] = $FlightNo;
+                $_SESSION['bill'] = $offer['price']['total'];
+                header('Location:hotel.php');
+            }
+        }
+    }
+?>
+
 </form>
+
 
 </body></html>
