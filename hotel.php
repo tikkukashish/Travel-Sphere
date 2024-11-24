@@ -21,7 +21,6 @@ function getAccessToken($clientId, $clientSecret) {
     ]);
 
     $response = curl_exec($ch);
-
     if (curl_errno($ch)) {
         echo "Error: " . curl_error($ch);
         curl_close($ch);
@@ -30,92 +29,95 @@ function getAccessToken($clientId, $clientSecret) {
 
     curl_close($ch);
     $response = json_decode($response, true);
-    if (isset($response['access_token'])) {
-        return $response['access_token'];
-    } else {
-        echo "Error: Unable to fetch access token.";
-        return null;
-    }
+    return $response['access_token'] ?? null;
 }
 
-function getHotelOffers($accessToken, $cityCode, $checkInDate, $checkOutDate, $adults = 1) {
-    $url = "https://test.api.amadeus.com/v1/reference-data/locations/hotels/by-city";
-    $params = [
-        'cityCode' => $cityCode,
-        'checkInDate' => $checkInDate,
-        'checkOutDate' => $checkOutDate,
-        'adults' => $adults,
-    ];
-
-    $queryString = http_build_query($params);
-    $url = $url . "?" . $queryString;
-
-    $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, $url);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-    curl_setopt($ch, CURLOPT_HTTPHEADER, [
-        'Authorization: Bearer ' . $accessToken
-    ]);
-
-    $response = curl_exec($ch);
-
-    if (curl_errno($ch)) {
-        echo "Error: " . curl_error($ch);
-        curl_close($ch);
-        return null;
-    }
-
-    curl_close($ch);
-    return json_decode($response, true);
+$accessToken = getAccessToken($clientId, $clientSecret);
+if (!$accessToken) {
+    die("Error: Unable to get access token.");
 }
 
-$accessToken = getAccessToken($clientId, $clientSecret);  // Replace with your actual access token
-echo "$accessToken";
-$cityCode = 'NYC';               // Hotel ID
-$adults = 1;                         // Number of adults
-$checkInDate = '2024-11-30';         // Check-in date 
+$cityCode = 'NYC'; 
+$radius = 5; 
+$ratings = 4; 
 
-// Build the API URL with the correct parameters
-$url = "https://test.api.amadeus.com/v1/reference-data/locations/hotels/by-city?cityCode=PAR&radius=5&radiusUnit=KM&hotelSource=ALL";
+$url = "https://test.api.amadeus.com/v1/reference-data/locations/hotels/by-city?cityCode=$cityCode&radius=$radius&radiusUnit=KM&ratings=$ratings";
 
-// Initialize cURL session
 $ch = curl_init();
-
-// Set cURL options
 curl_setopt($ch, CURLOPT_URL, $url);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($ch, CURLOPT_HTTPHEADER, [
-    "Authorization: Bearer $accessToken"  // Authorization with the access token
+    "Authorization: Bearer $accessToken"
 ]);
 
-// Execute the cURL request and get the response
 $response = curl_exec($ch);
-
-// Check for errors in the cURL request
 if (curl_errno($ch)) {
-    echo 'Curl error: ' . curl_error($ch);
-} else {
-    // Decode the JSON response from the API
-    $data = json_decode($response, true);
-
-    // Check if there is hotel data in the response
-    if (isset($data['data']) && count($data['data']) > 0) {
-        echo "<h2>Hotel Offers:</h2>";
-        // Loop through each hotel offer and display the details
-        foreach ($data['data'] as $hotel) {
-            echo "<div>";
-            echo "<h3>Hotel Name: " . $hotel['hotel']['name'] . "</h3>";
-            echo "<p>Location: " . $hotel['hotel']['address']['cityName'] . ", " . $hotel['hotel']['address']['countryCode'] . "</p>";
-            echo "<p>Price: " . $hotel['offers'][0]['price']['total'] . " " . $hotel['offers'][0]['price']['currency'] . "</p>";
-            echo "<p>Check-in: " . $hotel['offers'][0]['checkInDate'] . "</p>";
-            echo "<p>Check-out: " . $hotel['offers'][0]['checkOutDate'] . "</p>";
-            echo "</div><br>";
-        }
-    } else {
-        echo "<p>No hotel offers found for your search criteria.</p>";
-    }
+    echo "Error: " . curl_error($ch);
+    curl_close($ch);
+    die();
 }
 
 curl_close($ch);
+
+$data = json_decode($response, true);
+if (!isset($data['data']) || count($data['data']) === 0) {
+    die("No hotels found for the given city code.");
+}
+
+$hotelIds = array_map(fn($hotel) => $hotel['hotelId'], $data['data']);
+
+$i = 0;
+
+foreach ($hotelIds as $hotelId) {
+
+    $checkInDate = '2024-11-30'; 
+    $adults = 1; 
+    $roomQuantity = 1; 
+
+    $offersUrl = "https://test.api.amadeus.com/v3/shopping/hotel-offers?hotelIds=$hotelId";
+
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $offersUrl);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, [
+        "Authorization: Bearer $accessToken"
+    ]);
+
+    $offerResponse = curl_exec($ch);
+    if (curl_errno($ch)) {
+        echo "Error: " . curl_error($ch);
+        curl_close($ch);
+        continue;
+    }
+
+    curl_close($ch);
+
+    $offerData = json_decode($offerResponse, true);
+    if (isset($offerData['data']) && count($offerData['data']) > 0) {
+        if (++$i > 5) break;
+        foreach ($offerData['data'] as $hotel) {
+            $hotelName = $hotel['hotel']['name'];
+            $price = $hotel['offers'][0]['price']['total'];
+            $currency = $hotel['offers'][0]['price']['currency'];
+            $checkInDate = $hotel['offers'][0]['checkInDate'];
+            $checkOutDate = $hotel['offers'][0]['checkOutDate'];
+            
+            // Hotel ratings and distance from city center with isset checks
+            $rating = $hotel['hotel']['rating'] ?? 'Not available';  // Default if rating is missing
+            
+            // Check if location key exists and then access distance
+            $distance = isset($hotel['hotel']['location']['distance']) ? $hotel['hotel']['location']['distance'] : 'Not available';  
+
+            echo "<div>";
+            echo "<h3>Hotel Name: $hotelName</h3>";
+            echo "<p>Price: $price $currency</p>";
+            echo "<p>Rating: $rating stars</p>";
+            echo "<p>Distance from City Centre: $distance km</p>";
+            echo "<p>Check-in: $checkInDate</p>";
+            echo "<p>Check-out: $checkOutDate</p>";
+            echo "</div><br>";
+        }
+    }
+}
 
 ?>

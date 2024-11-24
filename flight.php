@@ -1,43 +1,11 @@
+<html><body>
 <?php
 
-$clientId = "KJ03ahnCTtMlrueI1dlazlTnGOoCtATw";
-$clientSecret = "w1GTjVdITpWVr5Zk";
+include('currency.php');
+include('accessToken.php');
 
-function getAccessToken($clientId, $clientSecret) {
-    $url = "https://test.api.amadeus.com/v1/security/oauth2/token";
-    $data = [
-        'grant_type' => 'client_credentials',
-        'client_id' => $clientId,
-        'client_secret' => $clientSecret
-    ];
 
-    $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, $url);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-    curl_setopt($ch, CURLOPT_POST, 1);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
-    curl_setopt($ch, CURLOPT_HTTPHEADER, [
-        'Content-Type: application/x-www-form-urlencoded'
-    ]);
-
-    $response = curl_exec($ch);
-
-    if (curl_errno($ch)) {
-        echo "Error: " . curl_error($ch);
-        curl_close($ch);
-        return null;
-    }
-
-    curl_close($ch);
-    $response = json_decode($response, true);
-    if (isset($response['access_token'])) {
-        return $response['access_token'];
-    } else {
-        echo "Error: Unable to fetch access token.";
-        return null;
-    }
-}
-
+// Function to fetch flight offers (with price conversion)
 function getFlightOffers($accessToken, $origin, $destination, $departureDate, $returnDate = null, $adults = 1) {
     $url = "https://test.api.amadeus.com/v2/shopping/flight-offers";
     $params = [
@@ -45,6 +13,7 @@ function getFlightOffers($accessToken, $origin, $destination, $departureDate, $r
         'destinationLocationCode' => $destination,
         'departureDate' => $departureDate,
         'adults' => $adults,
+        'max' => 10,
     ];
 
     if ($returnDate) {
@@ -55,6 +24,7 @@ function getFlightOffers($accessToken, $origin, $destination, $departureDate, $r
 
     $url = $url . "?" . $queryString;
 
+    // Initialize cURL session
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -62,8 +32,7 @@ function getFlightOffers($accessToken, $origin, $destination, $departureDate, $r
         'Authorization: Bearer ' . $accessToken
     ]);
 
-    echo "$ch";
-
+    // Execute the request and get the response
     $response = curl_exec($ch);
 
     if (curl_errno($ch)) {
@@ -76,43 +45,72 @@ function getFlightOffers($accessToken, $origin, $destination, $departureDate, $r
     return json_decode($response, true);
 }
 
-$accessToken = getAccessToken($clientId, $clientSecret);
 
-$origin = "DEL"; 
-$destination = "BOM"; 
-$departureDate = "2024-12-01"; 
-$returnDate = "2024-12-10"; 
+
+session_start();
+
+// Replace with your actual API credentials and destination
+$accessToken = getAccessToken($clientId, $clientSecret);
+if (!$accessToken) {
+    die("Error: Unable to get access token.");
+}  
+
+
+$origin = "DEL";  // Origin location code (example: Delhi)
+$destination = $_SESSION['destination'];  // Destination location code (dynamic)
+$departureDate = "2024-11-30";  // Departure date // Return date (if needed)
 $adults = 1;
 
+// Fetch flight offers
+$flightOffers = getFlightOffers($accessToken, $origin, $destination, $departureDate, $returnDate=null, $adults);
 
-$flightOffers = getFlightOffers($accessToken, $origin, $destination, $departureDate, $returnDate, $adults);
+// Convert flight prices
+$currency = "INR";  // Convert to INR (Indian Rupees)
 
-$seenFlights = [];
 
-
+$i=0;
+$seenFlights=[];
 echo "<h2>Available Flights:</h2>";
-$i = 0;
+?>
+
+<form>
+    <table border : 1px>
+        <th></th><th>DEPARTURE</th><th>ARRIVAL</th><th>ETD</th><th>ETA</th><th>PRICE</th><th>FLIGHT NO</th>
+<?php
 foreach ($flightOffers['data'] as $offer) {
-    if ($i == 5) break;
+
+    if ($i==5)break;
+    
+    // Extract flight details
     $itinerary = $offer['itineraries'][0]['segments'][0];
     $price = $offer['price']['total'];
+    $currencyCode = $offer['price']['currency'];
 
     $uniqueKey = $itinerary['departure']['iataCode'] . "-" . 
-                 $itinerary['arrival']['iataCode'] . "-" . 
-                 $itinerary['departure']['at'];
+    $itinerary['arrival']['iataCode'] . "-" . 
+    $itinerary['departure']['at'];
 
     if (in_array($uniqueKey, $seenFlights)) {
-        continue;
+    continue;
     }
 
     $i++;
     $seenFlights[] = $uniqueKey;
 
-    echo "<p>Flight from {$itinerary['departure']['iataCode']} to {$itinerary['arrival']['iataCode']}</p>";
-    echo "<p>Departure: {$itinerary['departure']['at']}</p>";
-    echo "<p>Arrival: {$itinerary['arrival']['at']}</p>";
-    echo "<p>Price: $ {$price}</p>";
-    echo "<p>Flight No: {$itinerary['carrierCode']}{$itinerary['number']}</p><hr>";
-    
+    // Convert the price to the desired currency (e.g., INR)
+    //$convertedPrice = convertPrice($price, $currencyCode, $currency,$apiKey);
+    echo "<tr><td><input type='radio' name ='FNo' value='".$itinerary['carrierCode'].$itinerary['number']."'>";
+    echo "<td>".$itinerary['departure']['iataCode']."</td> <td>".$itinerary['arrival']['iataCode']."</td>";
+    echo "<td>".$itinerary['departure']['at']."</td>";
+    echo "<td>".$itinerary['arrival']['at']."</td>";
+    echo "<td>".$price.$currency."</td>";
+    echo "<td>".$itinerary['carrierCode'].$itinerary['number']."</td></tr>";
 }
+
 ?>
+
+</table>
+<input type = 'submit'>
+</form>
+
+</body></html>
