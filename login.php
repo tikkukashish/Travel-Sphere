@@ -3,8 +3,8 @@
     require('db.php');
     session_start();
 
-    if (isset($_REQUEST['Username'])){
-        $username = $_REQUEST['Username'];
+    if (isset($_REQUEST['LoginUsername'])){
+        $username = $_REQUEST['LoginUsername'];
         $password = $_REQUEST['Password'];
         
         $query = "SELECT * FROM userlogin WHERE Username='$username' AND Password='$password'";

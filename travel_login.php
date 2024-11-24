@@ -20,7 +20,7 @@
 
                     <div class="login__box">
                         <i class='bx bxs-user-circle login__icon'></i>
-                        <input type="text" placeholder="Username" class="login__input" name="Username">
+                        <input type="text" placeholder="Username" class="login__input" name="LoginUsername">
                     </div>
 
                     <div class="login__box">
@@ -71,13 +71,7 @@
                         <?php
                         include("signup.php");
                         ?>
-                        <br><br><div class="login__account">Or sign in with</div>
-                    </div>
-
-                    <div class="login__social">
-                        <a href="#" class="login__social-icon"><i class='bx bxl-facebook-circle'></i></a>
-                        <a href="#" class="login__social-icon"><i class='bx bxl-twitter' ></i></a>
-                        <a href="#" class="login__social-icon"><i class='bx bxl-google' ></i></a>
+                        
                     </div>
                 </form>
 

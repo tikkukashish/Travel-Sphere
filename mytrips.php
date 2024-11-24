@@ -46,6 +46,8 @@
     <!-- body  -->
     <section>
         <div class="content">
+        
+        <div class="confirm">Confirmed!</div>
         <div class="trip">Trip Details</div>
         <table name="details" class="t_details">
             <thead>
