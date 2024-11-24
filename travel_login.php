@@ -71,13 +71,7 @@
                         <?php
                         include("signup.php");
                         ?>
-                        <br><br><div class="login__account">Or sign in with</div>
-                    </div>
-
-                    <div class="login__social">
-                        <a href="#" class="login__social-icon"><i class='bx bxl-facebook-circle'></i></a>
-                        <a href="#" class="login__social-icon"><i class='bx bxl-twitter' ></i></a>
-                        <a href="#" class="login__social-icon"><i class='bx bxl-google' ></i></a>
+                        
                     </div>
                 </form>
 

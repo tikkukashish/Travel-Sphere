@@ -20,9 +20,7 @@
     }
   }
 
-    *,::before,::after{
-      box-sizing: border-box;
-    }
+    
 
   body{
     margin: 0;
@@ -30,7 +28,10 @@
     font-family: var(--body-font);
     font-size: var(--normal-font-size);
     color: var(--first-color-dark);
-    background-color: rgba(56, 53, 53, 1);
+    background: url('media/login.jpg') no-repeat center center fixed;
+    background-size: cover;
+    min-height: 100vh;
+    width: 100%;
   }
 
   h1{
@@ -41,21 +42,23 @@
     text-decoration: none;
   }
 
-  img{
+  /*img{
     max-width: 100%;
     height: 80%;
     position: absolute;
     top: 50%;
     left: 40%;
     transform: translate(-50%, -50%);
-  }
+  }*/
   /*login*/
   .login{
-    display: grid;
-    grid-template-columns: 100%;
+    display: flex;
+    justify-content: center; 
+    align-items: center;   
     height: 100vh;
-    margin-left: 1.5rem;
-    margin-right: 1.5rem;
+    margin: 0;             
+    background: transparent;
+    
   }
   
   .login__content{
@@ -63,15 +66,11 @@
   }
   
   .login__img{
-    display: flex;
-    justify-content: center;    
-    align-items: center;        
-    height: 100%;   
+   display: none;
   }
   
   .login__img img{
-    width: 310px;
-    margin-top: 1.5rem;
+    display: none;
   }
   
   .login__forms{
@@ -83,13 +82,14 @@
     position: absolute;
     bottom: 1rem;
     width: 100%;
-    background-color: var(--first-color-lighten);
+    background-color: rgba(0, 0, 0, 0.845);
     padding: 2rem 1rem;
-    border-radius: 1rem;
+   border-radius: 0.8rem;
     text-align: center;
     box-shadow: 0 8px 20px rgba(35,0,77,.2);
     animation-duration: .4s;
     animation-name: animate-login;
+    
   }
   
   @keyframes animate-login{
@@ -149,8 +149,9 @@
   }
   
   .login__button{
-    display: block;
     padding: 1rem;
+    padding-left: 4rem;
+    padding-right: 4rem;
     margin: 2rem 0;
     background-color: var(--first-color);
     color: #FFF;
@@ -229,7 +230,6 @@
       display: flex;
       width: 600px;
       height: 588px;
-      background-color: var(--first-color-lighten);
       border-radius: 1rem;
       padding-left: 1rem;
     }
@@ -240,7 +240,7 @@
     }
   
     .login__registre, .login__create{
-      left: -11rem;
+      left: -117%;
     }
   
     .login__registre{
