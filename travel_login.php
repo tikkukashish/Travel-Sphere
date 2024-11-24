@@ -12,7 +12,7 @@
     <div class="login">
         <div class="login__content">
             <div class="login__img">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTM9WdP7ZZ1Rxjvj-0encz2s_W343KRQpYrpQ&s" alt="">
+                <img src="media\login.jpg" alt="">
             </div>
             <div class="login__forms">
                 <form action="" class="login__registre" id="login-in" method="get">

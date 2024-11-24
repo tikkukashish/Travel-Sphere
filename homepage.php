@@ -16,6 +16,7 @@
             <a href="booking.php">Book</a>
             <a href="package.php">Holiday Packages</a>
             <a href="contactus.php">Contact Us</a>
+            <a href="mytrips.php">My Trips</a>
         </nav>
 
 
@@ -48,6 +49,7 @@
     </header>
 
     <!-- body section -->
+
      <section class="home" id="home">
 
         <div class="tagline">
@@ -70,16 +72,36 @@
 
      <!-- top picks slide -->
 
-     <!-- footer -->
+     <section class="picks">
+    <div class="recommended">
+        Recommended Places
+    </div>
+    <div class="places-container">
 
-     <section class="footer">
-        <div class="line_container">
-            <div class="line">
-                
-            </div>
+        <div class="place-card">
+            <img src="media\recommended places\LA.jpg" alt="Los Angeles">
+            <a href="LA.html">Los Angeles</a>
         </div>
-     </section>
 
-    <script src="homepage.js"></script>
-</body>
-</html>
+        <div class="place-card">
+            <img src="media\recommended places\vietnam.jpg" alt="Vietnam">
+            <a href="vietnam.html">Vietnam</a>
+        </div>
+
+        <div class="place-card">
+            <img src="media\recommended places\Paris.jpg" alt="Paris">
+            <a href="paris.html">Paris</a>
+        </div>
+
+        <div class="place-card">
+            <img src="media\recommended places\london.jpg" alt="london">
+            <a href="london.html">London</a>
+        </div>
+
+        <div class="place-card">
+            <img src="media\recommended places\rome.jpg" alt="rome">
+            <a href="rome.html">Rome</a>
+        </div>
+
+    </div>
+</section>

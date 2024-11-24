@@ -18,6 +18,7 @@
             <a href="booking.php">Book</a>
             <a href="package.php">Holiday Packages</a>
             <a href="contactus.php">Contact Us</a>
+            <a href="mytrips.php">My Trips</a>
         </nav>
 
 
@@ -51,7 +52,7 @@
 
     <!-- body -->
 
-        <img src="D:\JIIT\College\sem 3\DBMS\project\media\rayyu-maldives-Nbu3v_UDg6w-unsplash.jpg" class="bgimage">
+        <img src="media\booking.jpg" class="bgimage">
 
     <form name="search bar" action="iata.php" class="search_bar">
         <input type="search" id="search-bar" placeholder="City or Location" name="destination">

@@ -1,0 +1,83 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+  }
+  
+  body {
+    background-color: #f0f0f0;
+    color: #333;
+  }
+  
+  .h {
+    background-image: url("path/to/los-angeles-header.jpg");
+    background-size: cover;
+    background-position: center;
+    color: black;
+    text-align: center;
+    padding: 80px 20px;
+  }
+  
+  .h h1 {
+    font-size: 3em;
+    margin-bottom: 10px;
+  }
+  
+  .h p {
+    font-size: 1.5em;
+  }
+  
+  .content {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  .content h2 {
+    margin-top: 20px;
+    color: #ff5733;
+  }
+  
+  .content p {
+    margin: 10px 0 20px;
+    line-height: 1.6;
+  }
+  
+  .places-to-visit {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+  }
+  
+  .place {
+    text-align: center;
+  }
+  
+  .place img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+  }
+  
+  .place h3 {
+    margin-top: 10px;
+    font-size: 1.3em;
+    color: #333;
+  }
+  
+  .itinerary {
+    margin: 20px 0;
+    list-style: none;
+    padding-left: 15px;
+  }
+  
+  .itinerary li {
+    margin: 10px 0;
+    font-size: 1.1em;
+    color: #555;
+  }
+  
