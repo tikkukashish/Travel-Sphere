@@ -19,6 +19,7 @@
             <a href="booking.php">Book</a>
             <a href="package.php">Holiday Packages</a>
             <a href="contactus.php">Contact Us</a>
+            <a href="mytrips.php">My Trips</a>
         </nav>
 
 

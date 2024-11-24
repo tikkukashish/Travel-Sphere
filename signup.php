@@ -7,7 +7,7 @@
         $email = $_REQUEST['Email'];
         $password = $_REQUEST['Password'];
 
-        mysqli_query("CREATE TABLE IF NOT EXISTS userlogin(username varchar(40), email varchar(80), password varchar(40))");
+        mysqli_query("CREATE TABLE IF NOT EXISTS userlogin(Username varchar(40), Email varchar(80), Password varchar(40))");
         
         $query = "INSERT INTO userlogin VALUES('$username','$email','$password')";
 

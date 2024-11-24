@@ -1,4 +1,56 @@
-<html><body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <link href="homepage.css" rel=stylesheet>
+     <link href="flight.css" rel=stylesheet>
+    <title>Document</title>
+</head> 
+
+<body>
+
+<!-- header-->
+
+    <header>
+        <a href="homepage.php" class="logo">Travel<span>Sphere</span></a> 
+        <nav class="navigation">
+            <a href="homepage.php">Home</a>
+            <a href="booking.php">Book</a>
+            <a href="package.php">Holiday Packages</a>
+            <a href="contactus.php">Contact Us</a>
+            <a href="mytrips.php">My Trips</a>
+        </nav>
+
+
+            <?php
+            session_start();
+            if(!isset($_SESSION["username"])){
+                echo"   
+                        <div class='icon'>
+                        <nav class='navigation'><a href='travel_login.php'>Log in</a>
+                        </div>
+            
+                    ";
+            }
+            else{
+                $username = $_SESSION['username'];
+                echo"
+
+                    <div class='icon'>  
+                        <nav class='navigation'><a>$username</a><a href='logout.php'>Log out</a></nav>
+                    </div>
+
+                ";
+            }
+            ?>
+        <form name="search bar" action="" class="search_bar">
+            <input type="search" id="search-bar" placeholder="City or Location">
+            <label for="search-bar" class="bx bx-search search_btn"></label>
+        </form>
+
+    </header>
+
 <?php
 
 include('currency.php');
@@ -74,8 +126,12 @@ echo "<h2>Available Flights:</h2>";
 ?>
 
 <form>
-    <table border : 1px>
+    <table border : 1px class="t_details">
+        <thead>
+            <tr>
         <th></th><th>DEPARTURE</th><th>ARRIVAL</th><th>ETD</th><th>ETA</th><th>PRICE</th><th>FLIGHT NO</th>
+        </tr>
+        </thead>
 <?php
 foreach ($flightOffers['data'] as $offer) {
 
@@ -99,18 +155,18 @@ foreach ($flightOffers['data'] as $offer) {
 
     // Convert the price to the desired currency (e.g., INR)
     //$convertedPrice = convertPrice($price, $currencyCode, $currency,$apiKey);
-    echo "<tr><td><input type='radio' name ='FNo' value='".$itinerary['carrierCode'].$itinerary['number']."'>";
+    echo "<tbody><tr><td><input type='radio' name ='FNo' value='".$itinerary['carrierCode'].$itinerary['number']."'>";
     echo "<td>".$itinerary['departure']['iataCode']."</td> <td>".$itinerary['arrival']['iataCode']."</td>";
     echo "<td>".$itinerary['departure']['at']."</td>";
     echo "<td>".$itinerary['arrival']['at']."</td>";
     echo "<td>".$price.$currency."</td>";
-    echo "<td>".$itinerary['carrierCode'].$itinerary['number']."</td></tr>";
+    echo "<td>".$itinerary['carrierCode'].$itinerary['number']."</td></tr></tbody>";
 }
 
 ?>
 
 </table>
-<input type = 'submit'>
+<input type = 'submit' class="submit">
 </form>
 
 </body></html>
