@@ -14,7 +14,6 @@
             $_SESSION['username'] = $username;
             header("Location: homepage.php");
         }
-
     }
 
 ?>
