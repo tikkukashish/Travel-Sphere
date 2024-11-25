@@ -9,6 +9,14 @@
     <title>Holiday Packages</title>
 </head>
 <body>
+
+<?php
+    session_start();
+    if (!isset($_SESSION['username'])){
+        $_SESSION['login'] = 1;
+        header('Location: travel_login.php');
+    }
+?>
     <!-- header -->
     <?php include('header.php'); ?>
 
