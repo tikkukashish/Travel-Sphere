@@ -103,9 +103,11 @@
       transform: scale(1,1);
     }
   }
+  .login__title2  {
+    color: red !important;
+  }
   
   .login__title{
-    font-size: var(--h1-font-size);
     margin-bottom: 1rem;
   }
   

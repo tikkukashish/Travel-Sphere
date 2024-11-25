@@ -15,7 +15,7 @@
     if($result){
         session_start();
         $_SESSION['username'] = $username;  
-        
+        $_SESSION['Confirmed']=1;
     }
     header("Location: mytrips.php");
 ?>

@@ -17,7 +17,30 @@
             <div class="login__forms">
                 <form action="" class="login__registre" id="login-in" method="get">
                     <h1 class="login__title">Sign In</h1>
+                    <?php
+                    session_start();
+                    if (isset($_SESSION['login'])){
+                        if($_SESSION['login']==1){
+                            echo "<h4 class='login__title2'>You Must Sign In First</h4>" ;
+                            $_SESSION['login']=0;
+                        }
+                    }
 
+                    if (isset($_SESSION['missing'])){
+                        if($_SESSION['missing']==1){
+                            echo "<h4 class='login__title2'>Missing Fields</h4>" ;
+                            $_SESSION['missing']=0;
+                        }
+                    }
+
+                    if (isset($_SESSION['incorrect'])){
+                        if($_SESSION['incorrect']==1){
+                            echo "<h4 class='login__title2'>Incorrect Credentials</h4>" ;
+                            $_SESSION['incorrect']=0;
+                        }
+                    }
+
+                    ?>
                     <div class="login__box">
                         <i class='bx bxs-user-circle login__icon'></i>
                         <input type="text" placeholder="Username" class="login__input" name="LoginUsername">
@@ -61,7 +84,7 @@
                     </div>
                     <br>
 
-                    <button type="submit" class="login__button">Sign In</button>
+                    <button type="submit" class="login__button">Sign Up</button>
 
 
                     <div>

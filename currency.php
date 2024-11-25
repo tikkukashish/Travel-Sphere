@@ -1,7 +1,7 @@
 <?php
 
-// Your CurrencyAPI.com API key
-$apiKey = "cur_live_ndo9pD9sBv3Excgib684DVBMqQ4E0PUkDlYdSS3o";  // Replace with your actual API key
+
+$apiKey = "cur_live_ndo9pD9sBv3Excgib684DVBMqQ4E0PUkDlYdSS3o";  
 
 function getExchangeRate($baseCurrency, $targetCurrency, $apiKey) {
     // API endpoint URL

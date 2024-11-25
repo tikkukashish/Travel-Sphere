@@ -18,6 +18,15 @@
     <!-- body  -->
     <section>
         <div class="content">
+        <?php
+        session_start();
+        if (isset($_SESSION['Confirmed'])){
+            if($_SESSION['Confirmed']==1){
+                echo "<div class='confirm'>Confirmed!</div>" ;
+                $_SESSION['Confirmed']=0;
+            }
+        }
+        ?>
         <div class="trip">Trip Details</div>
         <table name="details" class="t_details">
             <thead>
@@ -38,6 +47,8 @@
                 $query = "SELECT * FROM trips WHERE Username='$username'";
                 $result = mysqli_query($con,$query);
 
+
+
                 $i=1;
                 while ($row = mysqli_fetch_assoc($result)){
                     echo "<tr><td>".$i++."</td>";
@@ -45,12 +56,17 @@
                     echo "<td>".$row['Departure']."</td>";
                     echo "<td>".$row['Flight_No']."</td>";
                     echo "<td>".$row['Hotel']."</td></tr>";
-                    }
+                }
             ?>
 
             </tbody>
 
         </table>
+        <?php
+        if(mysqli_num_rows($result)==0){
+                    echo "<br><br><center><h2>You have no upcoming trips.</h2></center>";
+        }
+        ?>
         </div>
     </section>
 </body>

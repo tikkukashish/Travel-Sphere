@@ -7,7 +7,7 @@
             <a href="contactus.php">Contact Us</a>
  
             <?php
-            session_start();
+            if(session_status() !== PHP_SESSION_ACTIVE) session_start();
             if(!isset($_SESSION["username"])){
                 echo"  
                         </nav> 
